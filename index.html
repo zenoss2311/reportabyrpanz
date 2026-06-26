@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Instan Pro</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#09090f;
+padding:20px;
+color:white;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:#11111b;
+padding:25px;
+border-radius:25px;
+box-shadow:0 0 30px rgba(255,50,100,.15);
+}
+
+.logo{
+text-align:center;
+margin-bottom:20px;
+}
+
+.logo h1{
+font-size:32px;
+color:#ff4568;
+}
+
+.logo p{
+color:#bbb;
+}
+
+.card{
+background:#181824;
+padding:18px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+.email-box{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+}
+
+input, textarea{
+width:100%;
+padding:14px;
+background:#222232;
+border:none;
+outline:none;
+color:white;
+border-radius:12px;
+}
+
+textarea{
+height:180px;
+resize:none;
+}
+
+.add-btn{
+background:#ff4568;
+border:none;
+padding:14px 18px;
+border-radius:12px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.email-list{
+margin-top:15px;
+}
+
+.email-item{
+background:#311926;
+padding:12px;
+border-radius:30px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:#ff7c99;
+}
+
+.remove{
+background:red;
+border:none;
+color:white;
+padding:6px 10px;
+border-radius:20px;
+cursor:pointer;
+}
+
+.send-btn{
+width:100%;
+margin-top:15px;
+padding:18px;
+border:none;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(90deg,#ff2f75,#ff5b2f);
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+<h1>📧 REPORT INSTAN PRO</h1>
+<p>Bersih • Rapi • Tinggal Kirim</p>
+</div>
+
+<div class="card">
+<h3>📌 TUJUAN EMAIL</h3>
+
+<div class="email-box">
+<input type="email" id="emailInput"
+placeholder="Masukkan email tujuan">
+<button class="add-btn" onclick="addEmail()">+</button>
+</div>
+
+<div class="email-list" id="emailList"></div>
+
+</div>
+
+<div class="card">
+<h3>📌 Subjek Laporan</h3>
+<input type="text" id="subject"
+placeholder="Masukkan subjek laporan">
+</div>
+
+<div class="card">
+<h3>📝 Isi Laporan</h3>
+<textarea id="body"
+placeholder="Tulis isi laporan di sini..."></textarea>
+</div>
+
+<button class="send-btn"
+onclick="sendMail()">
+🚀 BUKA EMAIL & KIRIM
+</button>
+
+</div>
+
+<script>
+
+let emails=[];
+
+function addEmail(){
+
+let email=document.getElementById("emailInput").value;
+
+if(email=="") return;
+
+emails.push(email);
+
+document.getElementById("emailInput").value="";
+
+renderEmails();
+}
+
+function removeEmail(index){
+
+emails.splice(index,1);
+
+renderEmails();
+}
+
+function renderEmails(){
+
+let html="";
+
+emails.forEach((email,index)=>{
+
+html+=`
+<div class="email-item">
+<span>${email}</span>
+<button class="remove"
+onclick="removeEmail(${index})">✕</button>
+</div>
+`;
+
+});
+
+document.getElementById("emailList").innerHTML=html;
+}
+
+function sendMail(){
+
+if(emails.length===0){
+alert("Tambahkan email tujuan terlebih dahulu!");
+return;
+}
+
+let tujuan=emails.join(",");
+
+let subject=
+encodeURIComponent(
+document.getElementById("subject").value
+);
+
+let body=
+encodeURIComponent(
+document.getElementById("body").value
+);
+
+window.location.href=
+`mailto:${tujuan}?subject=${subject}&body=${body}`;
+}
+
+</script>
+
+</body>
+</html>
